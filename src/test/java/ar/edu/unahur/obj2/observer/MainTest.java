@@ -1,13 +1,17 @@
 package ar.edu.unahur.obj2.observer;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ar.edu.unahur.obj2.observer.Alertas.Alerta;
 import ar.edu.unahur.obj2.observer.Central.CentralMonitoreo;
 import ar.edu.unahur.obj2.observer.Comportamientos.RiesgoPromedio;
 import ar.edu.unahur.obj2.observer.Entidades.Entidad;
+import ar.edu.unahur.obj2.observer.Excepciones.NivelDeAlertaIncorrectoException;
 
 public class MainTest {
     private CentralMonitoreo central;
@@ -18,9 +22,9 @@ public class MainTest {
 
     @BeforeEach
     void setUp() {
-         central = new CentralMonitoreo();
-         entidad1 = new Entidad("Hospital alemán");
-         entidad2 = new Entidad("Hospital suizo");
+        central = new CentralMonitoreo();
+        entidad1 = new Entidad("Hospital alemán");
+        entidad2 = new Entidad("Hospital suizo");
         calor =new Alerta("calor", 6);
         lluvia = new Alerta("lluvia", 8);
         central.agregarObserver(entidad1);
@@ -53,8 +57,16 @@ public class MainTest {
         central.emitirAlerta(granizo);
         assertTrue(entidad1.getAlertasRecibidas().size() == 2 && entidad1.riesgo() == 10);
         assertTrue(entidad2.getAlertasRecibidas().size() == 3 && entidad2.riesgo() == 7);
-        assertEquals(5, central.alertasTotales());
+        assertEquals(5, central.totalAlertasEmitidas());
+    }
+
+    @Test
+    void dadoElSetUp_alAgregarUnaAlertaConNivelFueraDeRango_seArrojaUnaExcepcion() {
+        assertThrows(NivelDeAlertaIncorrectoException.class, () -> new Alerta("tormenta", 12));
+    }
+
+    @Test
+    void dadoElSetUp_alAgregarUnaAlertaConNivelDentroDeRango_noSeArrojaNingunaExcepcion() {
+        assertDoesNotThrow(() -> new Alerta("tormenta", 8));
     }
 }
-
-// Cambiar List<Alerta> por List<RegistroAlerta> en CentroMonitoreo

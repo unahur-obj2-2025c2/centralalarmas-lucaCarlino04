@@ -1,6 +1,6 @@
 package ar.edu.unahur.obj2.observer.Central;
 
-import ar.edu.unahur.obj2.observer.Alerta;
+import ar.edu.unahur.obj2.observer.Alertas.Alerta;
 import ar.edu.unahur.obj2.observer.Entidades.IObserver;
 
 public interface IObservado {

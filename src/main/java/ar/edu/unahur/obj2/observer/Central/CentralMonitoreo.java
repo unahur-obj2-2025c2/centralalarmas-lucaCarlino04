@@ -3,12 +3,13 @@ package ar.edu.unahur.obj2.observer.Central;
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.edu.unahur.obj2.observer.Alerta;
+import ar.edu.unahur.obj2.observer.Alertas.Alerta;
+import ar.edu.unahur.obj2.observer.Alertas.RegistroAlerta;
 import ar.edu.unahur.obj2.observer.Entidades.IObserver;
 
 public class CentralMonitoreo implements IObservado{
     private List<IObserver> entidades = new ArrayList<>();
-    private List<Alerta> registroAlertas = new ArrayList<>();
+    private List<RegistroAlerta> registroAlertas = new ArrayList<>();
     @Override
     public void agregarObserver(IObserver observador) {
         entidades.add(observador);
@@ -24,17 +25,18 @@ public class CentralMonitoreo implements IObservado{
     }
 
     public void emitirAlerta(Alerta alerta) {
-        registroAlertas.add(alerta);
+        RegistroAlerta nuevaAlerta = new RegistroAlerta(alerta, entidades.size());
+        registroAlertas.add(nuevaAlerta);
         notificar(alerta);
     }
 
-    public Integer alertasTotales() {
-        return registroAlertas.size();
+    public Integer totalAlertasEmitidas() {
+        return registroAlertas.stream().mapToInt(alerta -> alerta.getEntidadesNotificadas()).sum();
     }
     public List<IObserver> getEntidades() {
         return entidades;
     }
-    public List<Alerta> getRegistroAlertas() {
+    public List<RegistroAlerta> getRegistroAlertas() {
         return registroAlertas;
     }
 }

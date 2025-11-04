@@ -1,11 +1,13 @@
-package ar.edu.unahur.obj2.observer;
+package ar.edu.unahur.obj2.observer.Alertas;
+
+import ar.edu.unahur.obj2.observer.Excepciones.NivelDeAlertaIncorrectoException;
 
 public class Alerta {
     private String tipo;
     private Integer nivel;
     public Alerta(String tipo, Integer nivel) {
         if (nivel > 10 || 0 > nivel) {
-            throw new IllegalArgumentException("Nivel de alerta incorrecto.");
+            throw new NivelDeAlertaIncorrectoException("Nivel de alerta incorrecto.");
         }
         this.tipo = tipo;
         this.nivel = nivel;

@@ -2,7 +2,7 @@ package ar.edu.unahur.obj2.observer.Comportamientos;
 
 import java.util.List;
 
-import ar.edu.unahur.obj2.observer.Alerta;
+import ar.edu.unahur.obj2.observer.Alertas.Alerta;
 
 public class RiesgoCritico implements IComportamiento {
 
